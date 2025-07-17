@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "django.contrib.admin",
     # extra apps
     "rest_framework",
+    # app
+    "wines",
 ]
 
 MIDDLEWARE = [
@@ -91,8 +93,6 @@ DATABASES = {
         },
     }
 }
-
-print("DB SETTINGS:", os.getenv("POSTGRES_DB"), os.getenv("POSTGRES_USER"), os.getenv("POSTGRES_PASSWORD"))
 
 
 
