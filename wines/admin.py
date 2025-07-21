@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from models import Wine
+from wines.models import Wine
 
 admin.site.register(Wine)
 
