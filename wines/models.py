@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import UniqueConstraint
 
 
 class Wine(models.Model):
@@ -16,5 +17,9 @@ class Wine(models.Model):
     capacity = models.FloatField(null=True, blank=True)
 
     def __str__(self):
-        return self.title
+        return self.title + " " + self.vintage
 
+    class Meta:
+        constraints = [
+            UniqueConstraint(fields=['title', 'vintage', 'capacity'], name='unique_wine_entry')
+        ]
