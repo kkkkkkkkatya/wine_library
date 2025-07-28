@@ -4,6 +4,7 @@ import uuid
 from django.db import models
 from django.db.models import UniqueConstraint
 from django.utils.text import slugify
+from django.conf import settings
 
 
 def wine_image_file_path(instance, filename):
@@ -29,10 +30,25 @@ class Wine(models.Model):
     image = models.ImageField(null=True, blank=True, upload_to=wine_image_file_path)
 
     def __str__(self):
-        return self.title + " " + self.vintage
+        return f"{self.title} ({self.vintage})" if self.vintage else self.title
 
     class Meta:
         ordering = ["title"]
         constraints = [
             UniqueConstraint(fields=["title", "vintage", "capacity"], name="unique_wine_entry")
         ]
+
+
+class WineReview(models.Model):
+    wine = models.ForeignKey(Wine, on_delete=models.CASCADE, related_name="reviews")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    rating = models.PositiveSmallIntegerField()  # 0 to 10
+    comment = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("wine", "user")  # only one review per wine per user
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.user.username} – {self.wine.title}: {self.rating}"
