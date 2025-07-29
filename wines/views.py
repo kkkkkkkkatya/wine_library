@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.db.models import Avg
 from rest_framework.response import Response
 from rest_framework import mixins, viewsets, status
@@ -8,6 +7,7 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 
 from wines.models import Wine, WineReview
+from wines.permissions import IsAdminOrIfAuthenticatedReadOnly
 from wines.serializers import WineSerializer, WineListSerializer, WineDetailSerializer, WineImageSerializer, WineReviewSerializer
 
 
@@ -19,7 +19,7 @@ class WineViewSet(
 ):
     queryset = Wine.objects.all()
     serializer_class = WineSerializer
-    # permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
+    permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
 
     def get_queryset(self):
         """Retrieve the wines with filters"""
@@ -81,11 +81,14 @@ class WineViewSet(
         if self.action == "list":
             return WineListSerializer
 
-        if self.action == "retrieve":
+        if self.action == "retrieve" or self.action == "save" or self.action == "unsave":
             return WineDetailSerializer
 
         if self.action == "upload_image":
             return WineImageSerializer
+
+        if self.action == "add_review":
+            return WineReviewSerializer
 
         return WineSerializer
 
@@ -129,6 +132,21 @@ class WineViewSet(
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(detail=True, methods=["POST"], permission_classes=[IsAuthenticated])
+    def save(self, request, pk=None):
+        """Add wine to user's saved list"""
+        wine = self.get_object()
+        user = request.user
+        user.saved_wines.add(wine)
+        return Response({"status": "Wine added to saved"}, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=["POST"], permission_classes=[IsAuthenticated])
+    def unsave(self, request, pk=None):
+        """Remove wine from user's saved list"""
+        wine = self.get_object()
+        user = request.user
+        user.saved_wines.remove(wine)
+        return Response({"status": "Wine removed from saved"}, status=status.HTTP_200_OK)
 
     @extend_schema(
         parameters=[
@@ -136,7 +154,7 @@ class WineViewSet(
                 "title",
                 type=OpenApiTypes.STR,
                 location=OpenApiParameter.QUERY,
-                description="Filter by movie title (ex. ?title=fiction)",
+                description="Filter by wine title (ex. ?title=Laurent-Perrier)",
             ),
             OpenApiParameter(
                 name="wine_type",

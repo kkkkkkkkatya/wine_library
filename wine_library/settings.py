@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     # app
     "wines",
+    "user",
 ]
 
 MIDDLEWARE = [
