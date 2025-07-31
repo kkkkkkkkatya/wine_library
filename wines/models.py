@@ -1,6 +1,7 @@
 import os
 import uuid
 
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models import UniqueConstraint
 from django.utils.text import slugify
@@ -42,7 +43,10 @@ class Wine(models.Model):
 class WineReview(models.Model):
     wine = models.ForeignKey(Wine, on_delete=models.CASCADE, related_name="reviews")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    rating = models.PositiveSmallIntegerField()  # 0 to 10
+    rating = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(10)],
+        help_text="Оцінка від 0 до 10",
+    )
     comment = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

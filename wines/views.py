@@ -12,10 +12,7 @@ from wines.serializers import WineSerializer, WineListSerializer, WineDetailSeri
 
 
 class WineViewSet(
-    mixins.ListModelMixin,
-    mixins.CreateModelMixin,
-    mixins.RetrieveModelMixin,
-    viewsets.GenericViewSet,
+    viewsets.ModelViewSet
 ):
     queryset = Wine.objects.all()
     serializer_class = WineSerializer
@@ -131,6 +128,31 @@ class WineViewSet(
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(
+        methods=["DELETE"],
+        detail=True,
+        url_path="delete-review",
+        permission_classes=[IsAuthenticated],
+    )
+    def delete_review(self, request, pk=None):
+        """
+        Allow user to delete their review for a specific wine.
+        """
+        wine = self.get_object()
+        try:
+            review = wine.reviews.get(user=request.user)
+        except WineReview.DoesNotExist:
+            return Response(
+                {"detail": "You have not reviewed this wine."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        review.delete()
+        return Response(
+            {"detail": "Your review has been deleted."},
+            status=status.HTTP_204_NO_CONTENT,
+        )
 
     @action(detail=True, methods=["POST"], permission_classes=[IsAuthenticated])
     def save(self, request, pk=None):
