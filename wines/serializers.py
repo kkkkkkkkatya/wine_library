@@ -5,6 +5,7 @@ from wines.models import Wine, WineReview
 
 class WineReviewSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
+    rating = serializers.IntegerField(min_value=0, max_value=10)
 
     class Meta:
         model = WineReview
