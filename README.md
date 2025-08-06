@@ -80,7 +80,7 @@ pytest
 
 ---
 
-## 📂 .env.example
+## 📂 .env.sample
 
 ```dotenv
 # Django settings
