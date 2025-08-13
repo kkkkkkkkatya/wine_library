@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from user.serializers import UserSerializer, UserDetailSerializer
+from user.permissions import CanEditUserPermission
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -12,7 +13,7 @@ class CreateUserView(generics.CreateAPIView):
 class ManageUserView(generics.RetrieveUpdateAPIView):
     serializer_class = UserDetailSerializer
     authentication_classes = (JWTAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, CanEditUserPermission)
 
     def get_object(self):
         return self.request.user

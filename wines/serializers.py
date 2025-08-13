@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from datetime import date
 
 from wines.models import Wine, WineReview
 
@@ -20,6 +21,12 @@ class WineSerializer(serializers.ModelSerializer):
             "vintage", "country", "region", "grape", "characteristics",
             "style", "capacity", "image"
         )
+
+    def validate_vintage(self, value):
+        current_year = date.today().year
+        if int(value) > current_year:
+            raise serializers.ValidationError("Vintage cannot be in the future.")
+        return value
 
 
 class WineListSerializer(WineSerializer):
