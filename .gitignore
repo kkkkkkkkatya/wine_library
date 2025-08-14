@@ -3,6 +3,7 @@
 
 ### Django ###
 *.log
+!test_results.log
 *.pot
 *.pyc
 __pycache__/

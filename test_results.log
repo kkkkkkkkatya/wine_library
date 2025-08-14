@@ -1,0 +1,243 @@
+2025-08-14 12:20:31,217 - TEST: test_get_info_about_another_user
+2025-08-14 12:20:31,219 - Target user: other@example.com
+2025-08-14 12:20:31,220 - Response status: 200
+2025-08-14 12:20:31,221 - Response body: {'id': 1, 'email': 'test@example.com', 'first_name': '', 'last_name': '', 'saved_wines': []}
+
+2025-08-14 12:20:30,720 - TEST: test_get_user_info
+2025-08-14 12:20:30,722 - Request body: {'email': 'test@example.com', 'password': 'StrongPass123'}
+2025-08-14 12:20:30,723 - Response status: 200
+2025-08-14 12:20:30,777 - Response body: {'id': 3, 'email': 'test@example.com', 'first_name': '', 'last_name': '', 'saved_wines': []}
+
+2025-08-14 12:20:31,358 - TEST: test_login_with_empty_fields
+2025-08-14 12:20:31,359 - Request body: {'email': 'test@example.com', 'password': 'StrongPass123'}
+2025-08-14 12:20:31,360 - Response status: 400
+2025-08-14 12:20:31,361 - Response body: {'email': [ErrorDetail(string='This field may not be blank.', code='blank')], 'password': [ErrorDetail(string='This field may not be blank.', code='blank')]}
+
+2025-08-14 12:20:32,479 - TEST: test_login_with_invalid_credentials
+2025-08-14 12:20:32,480 - Request body: {'email': 'wrong@example.com', 'password': 'WrongPass'}
+2025-08-14 12:20:32,481 - Response status: 401
+2025-08-14 12:20:32,482 - Response body: {'detail': ErrorDetail(string='No active account found with the given credentials', code='no_active_account')}
+
+2025-08-14 12:20:33,608 - TEST: test_login_with_valid_credentials
+2025-08-14 12:20:33,609 - Request body: {'email': 'test@example.com', 'password': 'StrongPass123'}
+2025-08-14 12:20:33,610 - Response status: 200
+2025-08-14 12:20:33,611 - Response body: {'refresh': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1NTI2MDQzMywiaWF0IjoxNzU1MTc0MDMzLCJqdGkiOiIxZWE1YTQ2NDM3Nzg0MDEyOTk1NmI4MzU2NmYwNDYyYSIsInVzZXJfaWQiOiI2In0.dVddP3p3yvWcUQ_sz0i0DzopKrnjsVZgCIlpmVrDNi0', 'access': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU1MzkwMDMzLCJpYXQiOjE3NTUxNzQwMzMsImp0aSI6IjhiYWNmMzM0NjM3ZTRjZjI5ZTI0Nzg2MWJmYWRjMTNhIiwidXNlcl9pZCI6IjYifQ.8bPsuPPY-DPHA15jRXg_OVbfqybFWkIOC7uRfd5SqdI'}
+
+2025-08-14 12:20:34,261 - TEST: test_patch_info_about_user
+2025-08-14 12:20:34,262 - Request body: {'email': 'patched@example.com'}
+2025-08-14 12:20:34,263 - Response status: 200
+2025-08-14 12:20:34,263 - Response body: {'id': 7, 'email': 'patched@example.com', 'first_name': '', 'last_name': '', 'saved_wines': []}
+
+2025-08-14 12:20:35,504 - TEST: test_register_valid_user
+2025-08-14 12:20:35,505 - Request body: {'email': 'new@example.com', 'password': 'NewStrongPass123'}
+2025-08-14 12:20:35,506 - Response status: 201
+2025-08-14 12:20:35,507 - Response body: {'id': 9, 'email': 'new@example.com', 'is_staff': False}
+
+2025-08-14 12:20:36,097 - TEST: test_register_with_empty_password
+2025-08-14 12:20:36,098 - Request body: {'email': 'newuser@example.com', 'password': ''}
+2025-08-14 12:20:36,099 - Response status: 400
+2025-08-14 12:20:36,100 - Response body: {'password': [ErrorDetail(string='This field may not be blank.', code='blank')]}
+
+2025-08-14 12:20:36,696 - TEST: test_register_with_invalid_emails
+2025-08-14 12:20:36,697 - Request body: {'email': 'test.com', 'password': 'pass'}
+2025-08-14 12:20:36,698 - Response status: 400
+2025-08-14 12:20:36,699 - Response body: {'email': [ErrorDetail(string='Enter a valid email address.', code='invalid')], 'password': [ErrorDetail(string='Ensure this field has at least 5 characters.', code='min_length')]}
+
+2025-08-14 12:20:36,702 - TEST: test_register_with_invalid_emails
+2025-08-14 12:20:36,703 - Request body: {'email': 'test@', 'password': 'pass'}
+2025-08-14 12:20:36,704 - Response status: 400
+2025-08-14 12:20:36,705 - Response body: {'email': [ErrorDetail(string='Enter a valid email address.', code='invalid')], 'password': [ErrorDetail(string='Ensure this field has at least 5 characters.', code='min_length')]}
+
+2025-08-14 12:20:36,709 - TEST: test_register_with_invalid_emails
+2025-08-14 12:20:36,710 - Request body: {'email': '@test.com', 'password': 'pass'}
+2025-08-14 12:20:36,711 - Response status: 400
+2025-08-14 12:20:36,712 - Response body: {'email': [ErrorDetail(string='Enter a valid email address.', code='invalid')], 'password': [ErrorDetail(string='Ensure this field has at least 5 characters.', code='min_length')]}
+
+2025-08-14 12:20:36,715 - TEST: test_register_with_invalid_emails
+2025-08-14 12:20:36,716 - Request body: {'email': '', 'password': 'pass'}
+2025-08-14 12:20:36,717 - Response status: 400
+2025-08-14 12:20:36,717 - Response body: {'email': [ErrorDetail(string='This field may not be blank.', code='blank')], 'password': [ErrorDetail(string='Ensure this field has at least 5 characters.', code='min_length')]}
+
+2025-08-14 12:20:37,326 - TEST: test_register_with_short_password
+2025-08-14 12:20:37,327 - Request body: {'email': 'shortpass@example.com', 'password': '1234'}
+2025-08-14 12:20:37,328 - Response status: 400
+2025-08-14 12:20:37,329 - Response body: {'password': [ErrorDetail(string='Ensure this field has at least 5 characters.', code='min_length')]}
+
+2025-08-14 12:20:37,900 - TEST: test_register_with_taken_email
+2025-08-14 12:20:37,901 - Request body: {'email': 'test@example.com', 'password': 'NewStrongPass123'}
+2025-08-14 12:20:37,902 - Response status: 400
+2025-08-14 12:20:37,903 - Response body: {'email': [ErrorDetail(string='user with this email address already exists.', code='unique')]}
+
+2025-08-14 12:20:38,510 - TEST: test_register_with_too_long_password
+2025-08-14 12:20:38,511 - Request body: {'email': 'longpass@example.com', 'password': '<129 chars>'}
+2025-08-14 12:20:38,512 - Response status: 400
+2025-08-14 12:20:38,513 - Response body: {'password': [ErrorDetail(string='Ensure this field has no more than 128 characters.', code='max_length')]}
+
+2025-08-14 12:20:39,061 - TEST: test_token_refresh_and_verify
+2025-08-14 12:20:39,062 - Refresh token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1NTI2MDQzOSwiaWF0IjoxNzU1MTc0MDM5LCJqdGkiOiJhMzZmZGM4NGU0OWE0MDIyYmVhOTgyMDhjNWFjZmY1OSIsInVzZXJfaWQiOiIxNSJ9.Z_Ag0-PMBf8kl6EqIuPSOCZHH6xx8F6GKPB-oRHZtwM
+2025-08-14 12:20:39,063 - Access token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU1MzkwMDM5LCJpYXQiOjE3NTUxNzQwMzksImp0aSI6ImIxZGZjMDg5YmY0MDQ4MWFhODhiZDNkZWVmMjdmZTIwIiwidXNlcl9pZCI6IjE1In0.oopy2dCD6hgG3P_ZhQoSHu9imfSFiC2xh5IC2u_YW1g
+2025-08-14 12:20:39,066 - POST /token/refresh/ status: 200
+2025-08-14 12:20:39,067 - POST /token/refresh/ response: {'access': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU1MzkwMDM5LCJpYXQiOjE3NTUxNzQwMzksImp0aSI6IjI5NWZjODg1MTUyMTQxYmI5MzI0MjIyNDkzM2E1MWI3IiwidXNlcl9pZCI6IjE1In0.-Ml75G0apSr7eAGUlMRwgqkfI0pHRJyIhoxRNjwZoDk'}
+2025-08-14 12:20:39,069 - POST /token/verify/ status: 200
+2025-08-14 12:20:39,070 - POST /token/verify/ response: {}
+
+2025-08-14 12:20:39,651 - TEST: test_token_refresh_invalid
+2025-08-14 12:20:39,653 - Request body: {'refresh': 'invalid.refresh.token'}
+2025-08-14 12:20:39,654 - Response status: 401
+2025-08-14 12:20:39,655 - Response body: {'detail': ErrorDetail(string='Token is invalid', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid')}
+
+2025-08-14 12:20:40,247 - TEST: test_token_verify_invalid
+2025-08-14 12:20:40,248 - Request body: {'token': 'invalid.token.string'}
+2025-08-14 12:20:40,249 - Response status: 401
+2025-08-14 12:20:40,250 - Response body: {'detail': ErrorDetail(string='Token is invalid', code='token_not_valid'), 'code': ErrorDetail(string='token_not_valid', code='token_not_valid')}
+
+2025-08-14 12:20:40,829 - TEST: test_update_user_info
+2025-08-14 12:20:40,830 - Request body: {'email': 'updated@example.com'}
+2025-08-14 12:20:40,831 - Response status: 200
+2025-08-14 12:20:40,832 - Response body: {'id': 18, 'email': 'updated@example.com', 'first_name': '', 'last_name': '', 'saved_wines': []}
+
+2025-08-14 12:20:41,420 - TEST: test_update_user_info_unauthorized
+2025-08-14 12:20:41,420 - Request body: {'email': 'test@example.com', 'password': 'StrongPass123'}
+2025-08-14 12:20:41,421 - Response status: 401
+2025-08-14 12:20:41,422 - Response body: {'detail': ErrorDetail(string='Authentication credentials were not provided.', code='not_authenticated')}
+
+2025-08-14 12:20:42,575 - TEST: test_update_with_invalid_email
+2025-08-14 12:20:42,576 - Target user: testupdate@example.com
+2025-08-14 12:20:42,577 - Request: {'email': 'invalid-email-format'}
+2025-08-14 12:20:42,578 - Response status: 400
+2025-08-14 12:20:42,579 - Response body: {'email': [ErrorDetail(string='Enter a valid email address.', code='invalid')]}
+
+2025-08-14 12:20:43,721 - TEST: test_view_token_info
+2025-08-14 12:20:43,722 - Request body: {'email': 'test@example.com', 'password': 'StrongPass123'}
+2025-08-14 12:20:43,723 - Response status: 200
+2025-08-14 12:20:43,724 - Response body: {'refresh': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1NTI2MDQ0MywiaWF0IjoxNzU1MTc0MDQzLCJqdGkiOiIxNmFlYWRhNGE2MTk0MWZkODI2Zjk2NWZjNzJlMDlhNSIsInVzZXJfaWQiOiIyMiJ9.y0kh9lwHUIDAso6ERWzPgZmViORJ5EurPTzWLHYSp4A', 'access': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU1MzkwMDQzLCJpYXQiOjE3NTUxNzQwNDMsImp0aSI6Ijg3YjAzODJhODI2ZDQ4YzA4ODExYTFkMzhiOWFiMDk1IiwidXNlcl9pZCI6IjIyIn0.hBEidIbZ3Khfl4drEsZvnaI3gutZwkHG_BwmYRe4F4Q'}
+
+2025-08-14 12:20:44,908 - TEST: test_add_review
+2025-08-14 12:20:44,909 - Request: POST /api/wines/wines/1/add-review/ | Data: {'rating': 4, 'comment': 'Wow'}
+2025-08-14 12:20:44,910 - Response status: 201
+2025-08-14 12:20:44,910 - Response body: {'id': 1, 'user': 'user@test.com', 'rating': 4, 'comment': 'Wow', 'created_at': '2025-08-14T12:20:44.905954Z'}
+
+2025-08-14 12:20:46,690 - TEST: test_add_review_twice_same_user - first add
+2025-08-14 12:20:46,691 - Request: POST /api/wines/wines/3/add-review/ | Data: {'rating': 5, 'comment': 'Excellent wine!'}
+2025-08-14 12:20:46,692 - Response status: 201
+2025-08-14 12:20:46,692 - Response body: {'id': 2, 'user': 'test@example.com', 'rating': 5, 'comment': 'Excellent wine!', 'created_at': '2025-08-14T12:20:46.689735Z'}
+
+2025-08-14 12:20:46,699 - TEST: test_add_review_twice_same_user - second add
+2025-08-14 12:20:46,700 - Request: POST /api/wines/wines/3/add-review/ | Data: {'rating': 5, 'comment': 'Excellent wine!'}
+2025-08-14 12:20:46,701 - Response status: 400
+2025-08-14 12:20:46,702 - Response body: {'detail': 'You have already reviewed this wine.'}
+
+2025-08-14 12:20:47,876 - TEST: test_create_wine_admin_only
+2025-08-14 12:20:47,878 - Request: POST /api/wines/wines/
+2025-08-14 12:20:47,878 - Request body: {'title': 'New Wine', 'vintage': '2019', 'price': 22.5, 'wine_type': 'White', 'country': 'Italy', 'capacity': 0.75}
+2025-08-14 12:20:47,879 - Response status: 201
+2025-08-14 12:20:47,881 - Response body: {'id': 5, 'title': 'New Wine', 'description': '', 'price': 22.5, 'wine_type': 'White', 'abv': None, 'vintage': '2019', 'country': 'Italy', 'region': '', 'grape': '', 'characteristics': '', 'style': '', 'capacity': 0.75, 'image': None}
+
+2025-08-14 12:20:49,033 - TEST: test_create_wine_future_vintage
+2025-08-14 12:20:49,033 - Request: POST /api/wines/wines/
+2025-08-14 12:20:49,034 - Request body: {'title': 'Future Wine', 'vintage': '2035', 'price': 50.0, 'wine_type': 'Red', 'country': 'Spain', 'capacity': 0.75}
+2025-08-14 12:20:49,035 - Response status: 400
+2025-08-14 12:20:49,036 - Response body: {'vintage': [ErrorDetail(string='Vintage cannot be in the future.', code='invalid')]}
+
+2025-08-14 12:20:50,228 - TEST: test_create_wine_unauthorized
+2025-08-14 12:20:50,229 - Request: POST /api/wines/wines/
+2025-08-14 12:20:50,229 - Request body: {'title': 'Unauthorized Wine', 'vintage': '2018'}
+2025-08-14 12:20:50,230 - Response status: 403
+2025-08-14 12:20:50,231 - Response body: {'detail': ErrorDetail(string='You do not have permission to perform this action.', code='permission_denied')}
+
+2025-08-14 12:20:51,368 - TEST: test_delete_non_existing_review
+2025-08-14 12:20:51,369 - Request: DELETE /api/wines/wines/99999/delete-review/
+2025-08-14 12:20:51,370 - Response status: 404
+2025-08-14 12:20:51,371 - Response body: {'detail': ErrorDetail(string='No Wine matches the given query.', code='not_found')}
+
+2025-08-14 12:20:52,545 - TEST: test_delete_review
+2025-08-14 12:20:52,546 - Request: DELETE /api/wines/wines/9/delete-review/
+2025-08-14 12:20:52,547 - Response status: 204
+2025-08-14 12:20:52,548 - Response body: {'detail': 'Your review has been deleted.'}
+
+2025-08-14 12:20:53,698 - TEST: test_delete_wine
+2025-08-14 12:20:53,699 - Request: DELETE /api/wines/wines/10/
+2025-08-14 12:20:53,700 - Response status: 204
+2025-08-14 12:20:53,701 - Response body: None
+
+2025-08-14 12:20:54,956 - TEST: test_delete_wine_non_existing_admin
+2025-08-14 12:20:54,957 - Request: DELETE /api/wines/wines/99999/
+2025-08-14 12:20:54,958 - Response status: 404
+2025-08-14 12:20:54,959 - Response body: {'detail': ErrorDetail(string='No Wine matches the given query.', code='not_found')}
+
+2025-08-14 12:20:56,192 - TEST: test_delete_wine_user_forbidden
+2025-08-14 12:20:56,193 - Request: DELETE /api/wines/wines/12/
+2025-08-14 12:20:56,194 - Response status: 403
+2025-08-14 12:20:56,195 - Response body: {'detail': ErrorDetail(string='You do not have permission to perform this action.', code='permission_denied')}
+
+2025-08-14 12:20:57,366 - TEST: test_get_wine_by_id
+2025-08-14 12:20:57,367 - Request: GET /api/wines/wines/13/
+2025-08-14 12:20:57,368 - Response status: 200
+2025-08-14 12:20:57,369 - Response body: {'id': 13, 'title': 'Test Wine', 'description': '', 'price': 15.99, 'wine_type': 'Red', 'abv': None, 'vintage': '2020', 'country': 'France', 'region': '', 'grape': '', 'characteristics': '', 'style': '', 'capacity': 0.75, 'image': None, 'average_rating': None, 'reviews': []}
+
+2025-08-14 12:20:58,678 - TEST: test_get_wine_non_existing
+2025-08-14 12:20:58,679 - Request: GET /api/wines/wines/99999/
+2025-08-14 12:20:58,680 - Response status: 404
+2025-08-14 12:20:58,681 - Response body: {'detail': ErrorDetail(string='No Wine matches the given query.', code='not_found')}
+
+2025-08-14 12:20:59,944 - TEST: test_list_wines
+2025-08-14 12:20:59,945 - Request: GET /wines/
+2025-08-14 12:20:59,946 - Response status: 200
+2025-08-14 12:20:59,947 - Response body: [{'id': 15, 'title': 'Test Wine', 'vintage': '2020', 'price': 15.99, 'image': None, 'average_rating': None}]
+
+2025-08-14 12:21:00,069 - TEST: test_patch_wine_admin
+2025-08-14 12:21:00,070 - Request: PATCH /api/wines/wines/16/
+2025-08-14 12:21:00,071 - Request body: {'price': 20.0}
+2025-08-14 12:21:00,072 - Response status: 200
+2025-08-14 12:21:00,073 - Response body: {'id': 16, 'title': 'Test Wine', 'description': '', 'price': 20.0, 'wine_type': 'Red', 'abv': None, 'vintage': '2020', 'country': 'France', 'region': '', 'grape': '', 'characteristics': '', 'style': '', 'capacity': 0.75, 'image': None}
+
+2025-08-14 12:21:01,261 - TEST: test_patch_wine_user_forbidden
+2025-08-14 12:21:01,263 - Request: PATCH /api/wines/wines/17/
+2025-08-14 12:21:01,264 - Request body: {'price': 10.0}
+2025-08-14 12:21:01,265 - Response status: 403
+2025-08-14 12:21:01,266 - Response body: {'detail': ErrorDetail(string='You do not have permission to perform this action.', code='permission_denied')}
+
+2025-08-14 12:21:02,673 - TEST: test_save_unsave_favorites (SAVE)
+2025-08-14 12:21:02,673 - Request: POST /api/wines/wines/18/save/
+2025-08-14 12:21:02,674 - Response status: 200
+2025-08-14 12:21:02,675 - Response body: {'status': 'Wine added to saved'}
+2025-08-14 12:21:02,680 - TEST: test_save_unsave_favorites (UNSAVE)
+2025-08-14 12:21:02,681 - Request: POST /api/wines/wines/18/unsave/
+2025-08-14 12:21:02,682 - Response status: 200
+2025-08-14 12:21:02,683 - Response body: {'status': 'Wine removed from saved'}
+
+2025-08-14 12:21:04,042 - TEST: test_swagger_ui_accessible
+2025-08-14 12:21:04,043 - Request: GET /api/doc/swagger/
+2025-08-14 12:21:04,044 - Response status: 200
+2025-08-14 12:21:04,045 - Response body: [HTML content hidden]
+
+2025-08-14 12:21:05,305 - TEST: test_update_wine_admin
+2025-08-14 12:21:05,306 - Request: PUT /api/wines/wines/20/
+2025-08-14 12:21:05,307 - Request body: {'title': 'Updated Wine', 'vintage': '2018', 'price': 18.0, 'wine_type': 'White', 'country': 'Italy', 'capacity': 1.0}
+2025-08-14 12:21:05,308 - Response status: 200
+2025-08-14 12:21:05,309 - Response body: {'id': 20, 'title': 'Updated Wine', 'description': '', 'price': 18.0, 'wine_type': 'White', 'abv': None, 'vintage': '2018', 'country': 'Italy', 'region': '', 'grape': '', 'characteristics': '', 'style': '', 'capacity': 1.0, 'image': None}
+
+2025-08-14 12:21:06,475 - TEST: test_update_wine_admin_future_vintage
+2025-08-14 12:21:06,476 - Request: PUT /api/wines/wines/21/
+2025-08-14 12:21:06,477 - Request body: {'title': 'Future Update', 'vintage': '2035', 'price': 30.0, 'wine_type': 'Red', 'country': 'France', 'capacity': 0.75}
+2025-08-14 12:21:06,477 - Response status: 400
+2025-08-14 12:21:06,478 - Response body: {'vintage': [ErrorDetail(string='Vintage cannot be in the future.', code='invalid')]}
+
+2025-08-14 12:21:07,682 - TEST: test_update_wine_image_user_forbidden
+2025-08-14 12:21:07,683 - Request: POST /api/wines/wines/22/upload-image/
+2025-08-14 12:21:07,684 - Request body: [multipart image]
+2025-08-14 12:21:07,685 - Response status: 403
+2025-08-14 12:21:07,686 - Response body: {'detail': ErrorDetail(string='You do not have permission to perform this action.', code='permission_denied')}
+
+2025-08-14 12:21:09,026 - TEST: test_update_wine_user_forbidden
+2025-08-14 12:21:09,027 - Request: PUT /api/wines/wines/23/
+2025-08-14 12:21:09,028 - Request body: {'title': 'User Updated Wine', 'vintage': '2015', 'price': 12.0, 'wine_type': 'Red', 'country': 'USA', 'capacity': 0.75}
+2025-08-14 12:21:09,028 - Response status: 403
+2025-08-14 12:21:09,029 - Response body: {'detail': ErrorDetail(string='You do not have permission to perform this action.', code='permission_denied')}
+
+2025-08-14 12:21:10,298 - TEST: test_upload_wine_image
+2025-08-14 12:21:10,299 - Request: POST /api/wines/wines/24/upload-image/
+2025-08-14 12:21:10,300 - Request body: [multipart image]
+2025-08-14 12:21:10,301 - Response status: 200
+2025-08-14 12:21:10,302 - Response body: {'id': 24, 'image': 'http://testserver/media/uploads/wines/test-wine-291d60e8-9c51-4edb-8510-0e1cf97b0912.jpg'}
+

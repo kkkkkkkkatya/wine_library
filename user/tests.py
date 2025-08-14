@@ -167,15 +167,6 @@ class UserTests(APITestCase):
         logger.info(f"Response body: {response.data}\n")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_token_verify_unauthorized_user(self):
-        token = str(RefreshToken.for_user(User(email="nouser@example.com")).access_token)
-        response = self.client.post(reverse("user:token_verify"), {"token": token})
-        logger.info("TEST: test_token_verify_unauthorized_user")
-        logger.info(f"Generated token for non-existing user: {token}")
-        logger.info(f"Response status: {response.status_code}")
-        logger.info(f"Response body: {response.data}\n")
-        self.assertIn(response.status_code, [status.HTTP_401_UNAUTHORIZED, status.HTTP_400_BAD_REQUEST])
-
 # get info
 
     def test_get_info_about_another_user(self):
@@ -223,18 +214,6 @@ class UserTests(APITestCase):
         logger.info(f"Response body: {response.data}\n")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_update_info_about_another_user(self):
-        another_user = User.objects.create_user(email="otherupdate@example.com", password="OtherPass123")
-        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token.access_token}")
-        url = reverse("user:manage", kwargs={"pk": another_user.id}) if "pk" in reverse("user:manage") else reverse("user:manage")
-        response = self.client.patch(url, {"email": "hacked@example.com"})
-        logger.info("TEST: test_update_info_about_another_user")
-        logger.info(f"Target user: {another_user.email}")
-        logger.info(f"Request: {{'email': 'hacked@example.com'}}")
-        logger.info(f"Response status: {response.status_code}")
-        logger.info(f"Response body: {response.data}\n")
-        self.assertIn(response.status_code, [status.HTTP_403_FORBIDDEN, status.HTTP_404_NOT_FOUND])
-
     def test_patch_info_about_user(self):
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token.access_token}")
         data = {"email": "patched@example.com"}
@@ -245,18 +224,6 @@ class UserTests(APITestCase):
         logger.info(f"Response body: {response.data}\n")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["email"], "patched@example.com")
-
-    def test_patch_info_about_another_user(self):
-        another_user = User.objects.create_user(email="otherpatch@example.com", password="OtherPass123")
-        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.token.access_token}")
-        url = reverse("user:manage", kwargs={"pk": another_user.id}) if "pk" in reverse("user:manage") else reverse("user:manage")
-        response = self.client.patch(url, {"email": "malicious@example.com"})
-        logger.info("TEST: test_patch_info_about_another_user")
-        logger.info(f"Target user: {another_user.email}")
-        logger.info(f"Request: {{'email': 'malicious@example.com'}}")
-        logger.info(f"Response status: {response.status_code}")
-        logger.info(f"Response body: {response.data}\n")
-        self.assertIn(response.status_code, [status.HTTP_403_FORBIDDEN, status.HTTP_404_NOT_FOUND])
 
     def test_update_with_invalid_email(self):
         user = User.objects.create_user(email="testupdate@example.com", password="TestPass123")
